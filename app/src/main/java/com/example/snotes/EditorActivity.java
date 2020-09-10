@@ -34,18 +34,13 @@ public class EditorActivity extends AppCompatActivity {
 
     public void accept_incoming_data(){
         Intent intent = getIntent();
-        String title = "";
-        if(intent.hasExtra(notesFragment.TITLE_TAG)) {
-            title = intent.getStringExtra(notesFragment.TITLE_TAG);
+        if(intent.hasExtra(notesFragment.TAG)) {
+            String[] title_and_content = intent.getStringArrayExtra(notesFragment.TAG);
+            TextView content_editor = binding.textEditor;
+            TextView title_editor = binding.titleEditor;
+            content_editor.setText(title_and_content[1]);
+            title_editor.setText(title_and_content[0]);
         }
-        String content = "";
-        if(intent.hasExtra(notesFragment.CONTENT_TAG)){
-            content = intent.getStringExtra(notesFragment.CONTENT_TAG);
-        }
-        TextView content_editor = binding.textEditor;
-        TextView title_editor = binding.titleEditor;
-        content_editor.setText(content);
-        title_editor.setText(title);
     }
 
     @Override

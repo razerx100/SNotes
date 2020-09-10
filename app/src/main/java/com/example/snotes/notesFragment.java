@@ -21,8 +21,7 @@ import com.example.snotes.dummy.DummyContent;
  */
 public class notesFragment extends Fragment implements MynotesRecyclerViewAdapter.OnNoteListener {
     private FragmentItemListBinding binding;
-    public static final String TITLE_TAG = "com.example.snotes.MOIST";
-    public static final String CONTENT_TAG = "com.example.snotes.MOISTURE";
+    public static final String TAG = "com.example.snotes.MOIST";
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
@@ -75,8 +74,8 @@ public class notesFragment extends Fragment implements MynotesRecyclerViewAdapte
     @Override
     public void onNoteClick(int position) {
         Intent intent = new Intent(getActivity(), EditorActivity.class);
-        intent.putExtra(TITLE_TAG, DummyContent.ITEMS.get(position).id);
-        intent.putExtra(CONTENT_TAG, DummyContent.ITEMS.get(position).content);
+        String[] title_and_content = { DummyContent.ITEMS.get(position).id, DummyContent.ITEMS.get(position).content };
+        intent.putExtra(TAG, title_and_content);
         startActivity(intent);
     }
 }

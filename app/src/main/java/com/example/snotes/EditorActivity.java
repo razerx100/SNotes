@@ -5,11 +5,13 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.snotes.databinding.ActivityEditorBinding;
 
@@ -26,6 +28,21 @@ public class EditorActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
+
+        accept_incoming_data();
+    }
+
+    public void accept_incoming_data(){
+        Intent intent = getIntent();
+        if(intent.hasExtra(notesFragment.TAG)) {
+            String message = intent.getStringExtra(notesFragment.TAG);
+            String title = message.split("\n")[0];
+            String content = message.split("\n")[1];
+            TextView content_editor = binding.textEditor;
+            TextView title_editor = binding.titleEditor;
+            content_editor.setText(content);
+            title_editor.setText(title);
+        }
     }
 
     @Override
@@ -38,11 +55,15 @@ public class EditorActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.done_action){
-            //TO_DO
+            //Done Button Action
             return true;
         }
         else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    public  void delete_note(View view){
+        //Delete opened note
     }
 }

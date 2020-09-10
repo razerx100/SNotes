@@ -1,6 +1,7 @@
 package com.example.snotes;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -18,8 +19,9 @@ import com.example.snotes.dummy.DummyContent;
 /**
  * A fragment representing a list of Items.
  */
-public class notesFragment extends Fragment {
+public class notesFragment extends Fragment implements MynotesRecyclerViewAdapter.OnNoteListener {
     private FragmentItemListBinding binding;
+    public static final String TAG = "com.example.snotes.MOIST";
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
@@ -65,7 +67,15 @@ public class notesFragment extends Fragment {
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
-        recyclerView.setAdapter(new MynotesRecyclerViewAdapter(DummyContent.ITEMS));
+        recyclerView.setAdapter(new MynotesRecyclerViewAdapter(DummyContent.ITEMS, this));
         return view;
+    }
+
+    @Override
+    public void onNoteClick(int position) {
+        Intent intent = new Intent(getActivity(), EditorActivity.class);
+        String message = DummyContent.ITEMS.get(position).id + "\n" +DummyContent.ITEMS.get(position).content;
+        intent.putExtra(TAG, message);
+        startActivity(intent);
     }
 }

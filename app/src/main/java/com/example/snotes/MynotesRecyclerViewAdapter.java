@@ -18,16 +18,18 @@ import java.util.List;
 public class MynotesRecyclerViewAdapter extends RecyclerView.Adapter<MynotesRecyclerViewAdapter.ViewHolder> {
 
     private final List<DummyItem> mValues;
+    private  OnNoteListener mOnNoteListener;
 
-    public MynotesRecyclerViewAdapter(List<DummyItem> items) {
+    public MynotesRecyclerViewAdapter(List<DummyItem> items, OnNoteListener onNoteListener) {
         mValues = items;
+        this.mOnNoteListener = onNoteListener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_item, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, mOnNoteListener);
     }
 
     @Override
@@ -42,22 +44,33 @@ public class MynotesRecyclerViewAdapter extends RecyclerView.Adapter<MynotesRecy
         return mValues.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
         public DummyItem mItem;
+        OnNoteListener onNoteListener;
 
-        public ViewHolder(View view) {
+        public ViewHolder(View view, OnNoteListener onNoteListener) {
             super(view);
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.item_number);
             mContentView = (TextView) view.findViewById(R.id.content);
+            this.onNoteListener = onNoteListener;
+            view.setOnClickListener(this);
         }
 
         @Override
         public String toString() {
             return super.toString() + " '" + mContentView.getText() + "'";
         }
+
+        @Override
+        public void onClick(View view) {
+            onNoteListener.onNoteClick(getAdapterPosition());
+        }
+    }
+    public interface OnNoteListener{
+        void onNoteClick(int position);
     }
 }

@@ -3,6 +3,7 @@ package com.example.snotes;
 import android.content.Context;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
@@ -36,5 +37,9 @@ public class DataManager {
     }
     public static String[] get_all_files_name(Context context){
         return context.fileList();
+    }
+    public static void delete_file(Context context, String name){
+        File file = new File(context.getFilesDir(), name);
+        file.delete();
     }
 }

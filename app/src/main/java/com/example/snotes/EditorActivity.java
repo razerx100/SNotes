@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.snotes.databinding.ActivityEditorBinding;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 public class EditorActivity extends AppCompatActivity {
     private ActivityEditorBinding binding;
@@ -53,7 +55,20 @@ public class EditorActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.done_action){
-            //Done Button Action
+            String title = binding.titleEditor.getText().toString();
+            String content = binding.textEditor.getText().toString();
+            if(title.isEmpty()){
+                Snackbar snackbar = Snackbar.make(binding.getRoot(), "Please provide a title", BaseTransientBottomBar.LENGTH_SHORT);
+                snackbar.show();
+            }
+            else if(DataManager.isNameExist(title, this)){
+                Snackbar snackbar = Snackbar.make(binding.getRoot(), "Note with same title already exists!", BaseTransientBottomBar.LENGTH_SHORT);
+                snackbar.show();
+            }
+            else {
+                DataManager.save_data(content, title, this);
+                go_back_to_main();
+            }
             return true;
         }
         else {
@@ -61,7 +76,12 @@ public class EditorActivity extends AppCompatActivity {
         }
     }
 
-    public  void delete_note(View view){
+    public void delete_note(View view){
         //Delete opened note
+    }
+
+    private void go_back_to_main(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

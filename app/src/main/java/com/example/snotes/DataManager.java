@@ -42,4 +42,13 @@ public class DataManager {
         File file = new File(context.getFilesDir(), name);
         file.delete();
     }
+    public static boolean isNameExist(String name, Context context){
+        String[] names = get_all_files_name(context);
+        for(int i = 0; i < names.length; i++){
+            if(names[i].equals(name)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -7,20 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.snotes.dummy.DummyContent.DummyItem;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class MynotesRecyclerViewAdapter extends RecyclerView.Adapter<MynotesRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<NotesContent.NoteItem> mValues;
     private  OnNoteListener mOnNoteListener;
 
-    public MynotesRecyclerViewAdapter(List<DummyItem> items, OnNoteListener onNoteListener) {
+    public MynotesRecyclerViewAdapter(List<NotesContent.NoteItem> items, OnNoteListener onNoteListener) {
         mValues = items;
         this.mOnNoteListener = onNoteListener;
     }
@@ -36,7 +31,7 @@ public class MynotesRecyclerViewAdapter extends RecyclerView.Adapter<MynotesRecy
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mContentView.setText(mValues.get(position).title);
     }
 
     @Override
@@ -48,7 +43,7 @@ public class MynotesRecyclerViewAdapter extends RecyclerView.Adapter<MynotesRecy
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public NotesContent.NoteItem mItem;
         OnNoteListener onNoteListener;
 
         public ViewHolder(View view, OnNoteListener onNoteListener) {

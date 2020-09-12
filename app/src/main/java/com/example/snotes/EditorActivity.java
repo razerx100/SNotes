@@ -19,6 +19,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class EditorActivity extends AppCompatActivity {
     private ActivityEditorBinding binding;
+    private boolean edit_note;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +44,7 @@ public class EditorActivity extends AppCompatActivity {
             content_editor.setText(title_and_content[1]);
             title_editor.setText(title_and_content[0]);
         }
+        edit_note = !intent.hasExtra(notesFragment.EDIT_TAG);
     }
 
     @Override
@@ -61,7 +63,7 @@ public class EditorActivity extends AppCompatActivity {
                 Snackbar snackbar = Snackbar.make(binding.getRoot(), "Please provide a title", BaseTransientBottomBar.LENGTH_SHORT);
                 snackbar.show();
             }
-            else if(DataManager.isNameExist(title, this)){
+            else if(DataManager.isNameExist(title, this) && edit_note){
                 Snackbar snackbar = Snackbar.make(binding.getRoot(), "Note with same title already exists!", BaseTransientBottomBar.LENGTH_SHORT);
                 snackbar.show();
             }
@@ -77,7 +79,8 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     public void delete_note(View view){
-        //Delete opened note
+        DataManager.delete_file(this, binding.titleEditor.getText().toString().trim());
+        go_back_to_main();
     }
 
     private void go_back_to_main(){

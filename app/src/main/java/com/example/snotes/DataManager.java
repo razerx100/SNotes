@@ -33,7 +33,7 @@ public class DataManager {
         finally {
             content = stringBuilder.toString();
         }
-        return content;
+        return content.trim();
     }
     public static String[] get_all_files_name(Context context){
         return context.fileList();

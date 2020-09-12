@@ -14,27 +14,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.snotes.databinding.FragmentItemListBinding;
-import com.example.snotes.dummy.DummyContent;
 
-/**
- * A fragment representing a list of Items.
- */
 public class notesFragment extends Fragment implements MynotesRecyclerViewAdapter.OnNoteListener {
     private FragmentItemListBinding binding;
-    public static final String TAG = "com.example.snotes.MOIST";
-    // TODO: Customize parameter argument names
+    public static final String TAG = "com.example.snotes.MOISTURE";
+    public static final String EDIT_TAG = "com.example.snotes.DROUGHT";
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
     private int mColumnCount = 1;
-
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
+    private NotesContent notesContent;
     public notesFragment() {
     }
 
-    // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static notesFragment newInstance(int columnCount) {
         notesFragment fragment = new notesFragment();
@@ -59,6 +49,7 @@ public class notesFragment extends Fragment implements MynotesRecyclerViewAdapte
         binding = FragmentItemListBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
+        notesContent = new NotesContent(getActivity());
         // Set the adapter
         Context context = view.getContext();
         RecyclerView recyclerView = (RecyclerView) view;
@@ -67,15 +58,16 @@ public class notesFragment extends Fragment implements MynotesRecyclerViewAdapte
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
-        recyclerView.setAdapter(new MynotesRecyclerViewAdapter(DummyContent.ITEMS, this));
+        recyclerView.setAdapter(new MynotesRecyclerViewAdapter(notesContent.ITEMS, this));
         return view;
     }
 
     @Override
     public void onNoteClick(int position) {
         Intent intent = new Intent(getActivity(), EditorActivity.class);
-        String[] title_and_content = { DummyContent.ITEMS.get(position).id, DummyContent.ITEMS.get(position).content };
+        String[] title_and_content = { notesContent.ITEMS.get(position).title, notesContent.ITEMS.get(position).content };
         intent.putExtra(TAG, title_and_content);
+        intent.putExtra(EDIT_TAG, true);
         startActivity(intent);
     }
 }

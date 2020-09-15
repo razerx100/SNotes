@@ -11,6 +11,8 @@ public class NotesContent {
     public final List<NoteItem> ITEMS = new ArrayList<NoteItem>();
     public final Map<String, NoteItem> ITEM_MAP = new HashMap<String, NoteItem>();
 
+    //Update with Date/Alphabetize name sorting functions
+
     public NotesContent(Context context){
         String[] names = DataManager.get_all_files_name(context);
         for (int i = 0; i < names.length; i++) {

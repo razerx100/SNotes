@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
 public class DataManager {
+    //add timestamp when file is being created
     public static void save_data(String content, String name, Context context){
         try(FileOutputStream fos = context.openFileOutput(name, Context.MODE_PRIVATE)){
             fos.write(content.getBytes());

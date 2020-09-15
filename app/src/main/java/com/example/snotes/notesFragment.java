@@ -22,6 +22,7 @@ public class notesFragment extends Fragment implements MynotesRecyclerViewAdapte
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
     private NotesContent notesContent;
+    private MynotesRecyclerViewAdapter myAdapter;
     public notesFragment() {
     }
 
@@ -50,7 +51,6 @@ public class notesFragment extends Fragment implements MynotesRecyclerViewAdapte
         View view = binding.getRoot();
 
         notesContent = new NotesContent(getActivity());
-        // Set the adapter
         Context context = view.getContext();
         RecyclerView recyclerView = (RecyclerView) view;
         if (mColumnCount <= 1) {
@@ -58,7 +58,8 @@ public class notesFragment extends Fragment implements MynotesRecyclerViewAdapte
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
-        recyclerView.setAdapter(new MynotesRecyclerViewAdapter(notesContent.ITEMS, this));
+        myAdapter = new MynotesRecyclerViewAdapter(notesContent.ITEMS, this);
+        recyclerView.setAdapter(myAdapter);
         return view;
     }
 
@@ -69,5 +70,15 @@ public class notesFragment extends Fragment implements MynotesRecyclerViewAdapte
         intent.putExtra(TAG, title_and_content);
         intent.putExtra(EDIT_TAG, true);
         startActivity(intent);
+    }
+
+    public void update_list(int option){
+        if(option == 0){
+            //Call alphabetize sort function
+        }
+        else{
+            //Call sort by date function
+        }
+        myAdapter.notifyDataSetChanged();
     }
 }

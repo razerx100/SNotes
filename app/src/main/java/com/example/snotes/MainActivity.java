@@ -3,6 +3,7 @@ package com.example.snotes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -63,12 +64,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int item_id = item.getItemId();
+        notesFragment fragment = (notesFragment) getSupportFragmentManager().findFragmentById(R.id.notes_fragment);
         if(item_id == R.id.sort_action_alpha){
-            //notify adapter to change list data
+            fragment.update_list(0);
             return true;
         }
         else if(item_id == R.id.sort_action_date){
-            //notify adapter to change list data
+            fragment.update_list(1);
             return true;
         }
         else {

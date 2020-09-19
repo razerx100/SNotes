@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,10 +75,10 @@ public class notesFragment extends Fragment implements MynotesRecyclerViewAdapte
 
     public void update_list(int option){
         if(option == 0){
-            //Call alphabetize sort function
+            myAdapter.sort_names(0);
         }
         else{
-            //Call sort by date function
+            myAdapter.sort_names(1);
         }
         myAdapter.notifyDataSetChanged();
     }

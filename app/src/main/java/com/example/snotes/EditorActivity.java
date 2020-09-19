@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.snotes.databinding.ActivityEditorBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -37,12 +38,17 @@ public class EditorActivity extends AppCompatActivity {
 
     public void accept_incoming_data(){
         Intent intent = getIntent();
+        FloatingActionButton fab = binding.fabDelete;
+        fab.setEnabled(false);
+        fab.setVisibility(View.INVISIBLE);
         if(intent.hasExtra(notesFragment.TAG)) {
             String[] title_and_content = intent.getStringArrayExtra(notesFragment.TAG);
             TextView content_editor = binding.textEditor;
             TextView title_editor = binding.titleEditor;
             content_editor.setText(title_and_content[1]);
             title_editor.setText(title_and_content[0]);
+            fab.setEnabled(true);
+            fab.setVisibility(View.VISIBLE);
         }
         edit_note = !intent.hasExtra(notesFragment.EDIT_TAG);
     }

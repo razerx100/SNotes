@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
+import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.List;
 
 public class MynotesRecyclerViewAdapter extends RecyclerView.Adapter<MynotesRecyclerViewAdapter.ViewHolder> {
@@ -30,8 +32,9 @@ public class MynotesRecyclerViewAdapter extends RecyclerView.Adapter<MynotesRecy
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).title);
+        holder.mIdView.setText(mValues.get(position).title);
+        Timestamp timestamp = new Timestamp(mValues.get(position).date);
+        holder.mContentView.setText(timestamp.toString());
     }
 
     @Override
@@ -67,5 +70,13 @@ public class MynotesRecyclerViewAdapter extends RecyclerView.Adapter<MynotesRecy
     }
     public interface OnNoteListener{
         void onNoteClick(int position);
+    }
+    public void sort_names(int mode){
+        if(mode == 0){
+            Collections.sort(mValues, NotesContent.NoteItem.NoteTitle);
+        }
+        else{
+            Collections.sort(mValues, NotesContent.NoteItem.NoteDate);
+        }
     }
 }

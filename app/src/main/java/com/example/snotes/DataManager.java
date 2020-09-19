@@ -8,12 +8,24 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class DataManager {
-    //add timestamp when file is being created
+    private static void add_date(String name, Context context){
+        try{
+            FileOutputStream fos = context.openFileOutput(name + "_date", Context.MODE_PRIVATE);
+            String date_in_ms = Long.toString(new Date().getTime());
+            fos.write(date_in_ms.getBytes());
+        }
+        catch (Exception e) {}
+    }
     public static void save_data(String content, String name, Context context){
-        try(FileOutputStream fos = context.openFileOutput(name, Context.MODE_PRIVATE)){
+        try{
+            FileOutputStream fos = context.openFileOutput(name, Context.MODE_PRIVATE);
             fos.write(content.getBytes());
+            add_date(name, context);
         }
         catch (Exception e){}
     }
@@ -36,17 +48,27 @@ public class DataManager {
         }
         return content.trim();
     }
-    public static String[] get_all_files_name(Context context){
-        return context.fileList();
+    public static Long get_date_in_ms(String name, Context context){
+        return Long.parseLong(get_data(name + "_date", context));
+    }
+    public static List<String> get_all_files_name(Context context){
+        String[] all_file_names = context.fileList();
+        List<String> content_files = new ArrayList<String>();
+        for (String all_file_name : all_file_names) {
+            if (!all_file_name.endsWith("_date")) {
+                content_files.add(all_file_name);
+            }
+        }
+        return content_files;
     }
     public static void delete_file(Context context, String name){
         File file = new File(context.getFilesDir(), name);
         file.delete();
     }
     public static boolean isNameExist(String name, Context context){
-        String[] names = get_all_files_name(context);
-        for(int i = 0; i < names.length; i++){
-            if(names[i].equals(name)){
+        List<String> names = get_all_files_name(context);
+        for(String Name : names){
+            if(Name.equals(name)){
                 return true;
             }
         }

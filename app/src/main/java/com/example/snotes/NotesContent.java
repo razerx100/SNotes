@@ -1,44 +1,58 @@
 package com.example.snotes;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class NotesContent {
     public final List<NoteItem> ITEMS = new ArrayList<NoteItem>();
-    public final Map<String, NoteItem> ITEM_MAP = new HashMap<String, NoteItem>();
 
     //Update with Date/Alphabetize name sorting functions
 
     public NotesContent(Context context){
-        String[] names = DataManager.get_all_files_name(context);
-        for (int i = 0; i < names.length; i++) {
-            addItem(createNoteItem(i + 1, names[i], DataManager.get_data(names[i], context)));
+        List<String> names = DataManager.get_all_files_name(context);
+        for (String name : names) {
+            addItem(createNoteItem(name, DataManager.get_data(name, context), DataManager.get_date_in_ms(name, context)));
         }
     }
 
     private void addItem(NoteItem item) {
         ITEMS.add(item);
-        ITEM_MAP.put(item.id, item);
     }
 
-    private NoteItem createNoteItem(int position, String title, String content) {
-        return new NoteItem(String.valueOf(position), title, content);
+    private NoteItem createNoteItem(String title, String content, Long date) {
+        return new NoteItem(title, content, date);
     }
 
     public static class NoteItem {
-        public final String id;
         public final String title;
         public final String content;
+        public final Long date;
 
-        public NoteItem(String id, String title, String content) {
-            this.id = id;
+        public NoteItem(String title, String content, Long date) {
             this.title = title;
             this.content = content;
+            this.date = date;
         }
+
+        public static Comparator<NoteItem> NoteTitle = new Comparator<NoteItem>() {
+            @Override
+            public int compare(NoteItem noteItem, NoteItem t1) {
+                return t1.title.compareTo(noteItem.title);
+            }
+        };
+
+        public static Comparator<NoteItem> NoteDate = new Comparator<NoteItem>() {
+            @Override
+            public int compare(NoteItem noteItem, NoteItem t1) {
+                return noteItem.date.compareTo(t1.date);
+            }
+        };
 
         @Override
         public String toString() {

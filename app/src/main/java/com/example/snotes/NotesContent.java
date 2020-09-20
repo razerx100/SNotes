@@ -43,7 +43,7 @@ public class NotesContent {
         public static Comparator<NoteItem> NoteTitle = new Comparator<NoteItem>() {
             @Override
             public int compare(NoteItem noteItem, NoteItem t1) {
-                return t1.title.compareTo(noteItem.title);
+                return noteItem.title.toLowerCase().compareTo(t1.title.toLowerCase());
             }
         };
 

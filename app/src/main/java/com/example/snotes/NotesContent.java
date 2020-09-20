@@ -50,7 +50,7 @@ public class NotesContent {
         public static Comparator<NoteItem> NoteDate = new Comparator<NoteItem>() {
             @Override
             public int compare(NoteItem noteItem, NoteItem t1) {
-                return noteItem.date.compareTo(t1.date);
+                return t1.date.compareTo(noteItem.date);
             }
         };
 
